@@ -4,9 +4,9 @@ TARGET = abstract_DC_drive
 DEVICE ?= stm32f103c8t6
 # All source files go here:
 SRCS = $(TARGET).c
-# other sources added like that
-SRCS +=
-# User defines
+# Libraries as submodules
+LIBS_SUBM := opencm3 fifo list pid
+
 DEFINES =
 # The libs which are linked to the resulting target. Note some libs links below
 LIBS = -Wl,--start-group -lc -lgcc -Wl,--end-group
@@ -69,7 +69,8 @@ LIBS += -labst_stm32f1
 endif
 # ==============================================================
 
-LIBS += -lopencm3 -llist -lfifo
+LIBS += $(addprefix -l,$(LIBS_SUBM))
+#LIBS += -lopencm3 -llist -lfifo
 
 # Directory with project sources
 SRC_DIR ?= src
@@ -85,10 +86,10 @@ ABSTSTM32_DIR = $(LIB_DIR)/abstractSTM32Fx
 OPENCM3_DIR = $(ABSTSTM32_DIR)/lib/libopencm3
 # Definitions required to generate linker script
 include $(OPENCM3_DIR)/mk/genlink-config.mk
-# List library
+
 LIST_DIR = $(ABSTSTM32_DIR)/lib/list
-#Fifo dir
 FIFO_DIR = $(ABSTSTM32_DIR)/lib/fifo-buffer
+PID_DIR = $(LIB_DIR)/int-PID
 
 CFLAGS := $(ARCHFLAGS)
 CFLAGS += -fdata-sections -ffunction-sections
@@ -116,6 +117,7 @@ endif
 TOOLCHAIN_PREFIX ?= arm-none-eabi-
 
 CC = $(TOOLCHAIN_PREFIX)gcc
+AR = $(TOOLCHAIN_PREFIX)ar
 CPP = $(TOOLCHAIN_PREFIX)g++
 # Change to assembler-with-cpp if also using C++
 AS = $(TOOLCHAIN_PREFIX)gcc -x assembler
@@ -140,6 +142,7 @@ INCS += -I$(ABSTSTM32_DIR)/include
 INCS +=  $(addprefix -I,$(INC_DIRS))
 INCS += -I$(LIST_DIR)/src
 INCS += -I$(FIFO_DIR)/include
+INCS += -I$(PID_DIR)/include
 
 OBJECTS = $(SRCS:.c=.o)
 
@@ -176,6 +179,10 @@ $(BUILD_DIR)/$(PROFILE)/%.a: $(ABSTSTM32_DIR)/build/%.a $(BUILD_DIR)/$(PROFILE)
 $(BUILD_DIR)/$(PROFILE)/libfifo.a: $(ABSTSTM32_DIR)/build/libfifo.a $(BUILD_DIR)/$(PROFILE)
 	cp $< $@
 
+$(BUILD_DIR)/$(PROFILE)/libpid.a: $(PID_DIR)/.build/libpid.a $(BUILD_DIR)/$(PROFILE)
+	cp $< $@
+
+
 # $(BUILD_DIR)/$(PROFILE)/libabst_$(TARGET_ABST).a: $(ABSTSTM32_DIR)/build/libabst_$(TARGET_ABST).a $(BUILD_DIR)/$(PROFILE)
 # 	cp $< $@
 
@@ -191,6 +198,9 @@ $(ABSTSTM32_DIR)/build/libabst_$(TARGET_ABST).a: $(ABSTSTM32_DIR)/Makefile
 $(ABSTSTM32_DIR)/build/liblist.a: $(ABSTSTM32_DIR)/Makefile
 	cd $(ABSTSTM32_DIR) && $(MAKE) $(MAKEFLAGS) TARGETS=$(TARGET_ABST) V=1 clean all
 
+$(PID_DIR)/.build/libpid.a:
+	cd $(PID_DIR) && $(MAKE) $(MAKEFLAGS) CC=$(CC) AR=$(AR) CFLAGS="$(CFLAGS)" V=1 clean static_stm32
+
 # Include rules to generate linker script
 include $(OPENCM3_DIR)/mk/genlink-rules.mk
 
@@ -202,10 +212,8 @@ $(OBJDIR)/%.o: $(SRC_DIR)/%.c | $(OBJDIR) $(BUILD_DIR)/$(PROFILE)/libopencm3.a
 ## Recipe for elf file, that is used for flashing and debugging, can be converted to bin/hex form
 $(BUILD_DIR)/$(PROFILE)/$(TARGET).elf: \
 $(addprefix $(OBJDIR)/,$(OBJECTS)) | \
-$(BUILD_DIR)/$(PROFILE)/libopencm3.a \
+$(addprefix $(BUILD_DIR)/$(PROFILE)/lib,$(addsuffix .a,$(LIBS_SUBM))) \
 $(BUILD_DIR)/$(PROFILE)/libabst_$(TARGET_ABST).a \
-$(BUILD_DIR)/$(PROFILE)/liblist.a \
-$(BUILD_DIR)/$(PROFILE)/libfifo.a \
 $(LDSCRIPT)
 	$(CC) -T$(LDSCRIPT) $< $(LDFLAGS) -o $@
 	@echo
@@ -250,6 +258,7 @@ tidy: clean
 	cd $(LIST_DIR) && $(MAKE) clean
 	cd $(OPENCM3_DIR) && $(MAKE) TARGETS="$(LIBOPENCM3_TARGET)" V=1 clean
 	cd $(FIFO_DIR) && $(MAKE) clean
+	cd $(PID_DIR) && $(MAKE) clean
 	-rm -rf $(BUILD_DIR)
 
 
