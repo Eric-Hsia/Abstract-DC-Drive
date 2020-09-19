@@ -4,6 +4,8 @@ TARGET = abstract_DC_drive
 DEVICE ?= stm32f103c8t6
 # All source files go here:
 SRCS = $(TARGET).c
+SRCS += flash.c
+
 # Libraries as submodules
 LIBS_SUBM := opencm3 fifo list pid
 
@@ -26,7 +28,7 @@ LOG ?= 0
 #   -ggdb3 -- the same as g3, but the information is included in gdb format
 OPTFLAGS_debug = -O0 -ggdb3
 # Optimization flags for release build: -Os -- optimize for smaller size
-OPTFLAGS_release = -Os
+OPTFLAGS_release = -O2
 # Optimization flags. Here we choose depending on profile
 OPTFLAGS ?= ${OPTFLAGS_${PROFILE}}
 # User flags should be given here
@@ -137,7 +139,8 @@ MAKEFLAGS += --no-print-directory
 LDSCRIPT = $(BUILD_DIR)/$(DEVICE).ld
 
 # All includes semi-automatically collected here
-INCS =  -I$(OPENCM3_DIR)/include 
+INCS =  -I./include
+INCS += -I$(OPENCM3_DIR)/include 
 INCS += -I$(ABSTSTM32_DIR)/include 
 INCS +=  $(addprefix -I,$(INC_DIRS))
 INCS += -I$(LIST_DIR)/src
@@ -176,18 +179,12 @@ libopencm3-docs: $(BUILD_DIR)/libopencm3-docs
 $(BUILD_DIR)/$(PROFILE)/%.a: $(ABSTSTM32_DIR)/build/%.a $(BUILD_DIR)/$(PROFILE)
 	cp $< $@
 
-$(BUILD_DIR)/$(PROFILE)/libfifo.a: $(ABSTSTM32_DIR)/build/libfifo.a $(BUILD_DIR)/$(PROFILE)
+$(BUILD_DIR)/$(PROFILE)/libfifo.a: $(FIFO_DIR)/.build/libfifo.a $(BUILD_DIR)/$(PROFILE)
 	cp $< $@
 
 $(BUILD_DIR)/$(PROFILE)/libpid.a: $(PID_DIR)/.build/libpid.a $(BUILD_DIR)/$(PROFILE)
 	cp $< $@
 
-
-# $(BUILD_DIR)/$(PROFILE)/libabst_$(TARGET_ABST).a: $(ABSTSTM32_DIR)/build/libabst_$(TARGET_ABST).a $(BUILD_DIR)/$(PROFILE)
-# 	cp $< $@
-
-# $(BUILD_DIR)/$(PROFILE)/liblist.a: $(ABSTSTM32_DIR)/build/liblist.a $(BUILD_DIR)/$(PROFILE)
-# 	cp $< $@
 
 $(ABSTSTM32_DIR)/build/libopencm3.a: $(ABSTSTM32_DIR)/Makefile
 	cd $(ABSTSTM32_DIR) && $(MAKE) $(MAKEFLAGS) TARGETS=$(TARGET_ABST) V=1 clean all
@@ -198,6 +195,9 @@ $(ABSTSTM32_DIR)/build/libabst_$(TARGET_ABST).a: $(ABSTSTM32_DIR)/Makefile
 $(ABSTSTM32_DIR)/build/liblist.a: $(ABSTSTM32_DIR)/Makefile
 	cd $(ABSTSTM32_DIR) && $(MAKE) $(MAKEFLAGS) TARGETS=$(TARGET_ABST) V=1 clean all
 
+$(FIFO_DIR)/.build/libfifo.a:
+	cd $(FIFO_DIR) && $(MAKE) $(MAKEFLAGS) CC=$(CC) AR=$(AR) CFLAGS="$(CFLAGS)" V=1 clean static_stm32
+	
 $(PID_DIR)/.build/libpid.a:
 	cd $(PID_DIR) && $(MAKE) $(MAKEFLAGS) CC=$(CC) AR=$(AR) CFLAGS="$(CFLAGS)" V=1 clean static_stm32
 
@@ -215,7 +215,7 @@ $(addprefix $(OBJDIR)/,$(OBJECTS)) | \
 $(addprefix $(BUILD_DIR)/$(PROFILE)/lib,$(addsuffix .a,$(LIBS_SUBM))) \
 $(BUILD_DIR)/$(PROFILE)/libabst_$(TARGET_ABST).a \
 $(LDSCRIPT)
-	$(CC) -T$(LDSCRIPT) $< $(LDFLAGS) -o $@
+	$(CC) -T$(LDSCRIPT) $(addprefix $(OBJDIR)/,$(OBJECTS)) $(LDFLAGS) -o $@
 	@echo
 	$(SZ) $@
 	@echo

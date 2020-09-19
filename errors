@@ -1,0 +1,576 @@
+src/fifo_buffer.c: In function 'fifo_read_element':
+src/fifo_buffer.c:120:16: warning: returning 'void *' from a function with return type 'stored_data_t' {aka 'short unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+  120 |         return NULL;
+      |                ^~~~
+src/abstractSTM32.c: In function 'abst_gpio_init':
+src/abstractSTM32.c:163:71: warning: comparison between pointer and integer
+  163 |     if (pin_ptr->mode == ABST_MODE_ANALOG && pin_ptr->adc_sample_time != NULL) {
+      |                                                                       ^~
+At top level:
+src/abstractSTM32.c:80:17: warning: 'decompose_bits' defined but not used [-Wunused-function]
+   80 | static uint16_t decompose_bits(uint16_t pins_num, uint16_t values)
+      |                 ^~~~~~~~~~~~~~
+src/abstractLCD.c: In function '_abst_lcd_connect_byte':
+src/abstractLCD.c:245:69: warning: unused parameter 'lcd_ptr' [-Wunused-parameter]
+  245 | void __attribute__ ((weak)) _abst_lcd_connect_byte(struct abst_lcd *lcd_ptr)
+      |                                                    ~~~~~~~~~~~~~~~~~^~~~~~~
+src/abstractINIT.c: In function '_abst_conv_speed':
+src/abstractINIT.c:137:41: warning: unused parameter 'speed' [-Wunused-parameter]
+  137 | static uint8_t _abst_conv_speed(uint8_t speed)
+      |                                 ~~~~~~~~^~~~~
+src/abstractINIT.c: In function '_abst_init_pins':
+src/abstractINIT.c:181:33: warning: unused parameter 'pull_up_down' [-Wunused-parameter]
+  181 |                         uint8_t pull_up_down,
+      |                         ~~~~~~~~^~~~~~~~~~~~
+src/abstractINIT.c:182:33: warning: unused parameter 'af' [-Wunused-parameter]
+  182 |                         uint8_t af,
+      |                         ~~~~~~~~^~
+At top level:
+src/abstractINIT.c:137:16: warning: '_abst_conv_speed' defined but not used [-Wunused-function]
+  137 | static uint8_t _abst_conv_speed(uint8_t speed)
+      |                ^~~~~~~~~~~~~~~~
+src/abstractADC.c: In function '_abst_conv_adc_resolution':
+src/abstractADC.c:37:51: warning: unused parameter 'resolution' [-Wunused-parameter]
+   37 | static uint32_t _abst_conv_adc_resolution(uint8_t resolution)
+      |                                           ~~~~~~~~^~~~~~~~~~
+src/abstractADC.c: In function 'abst_adc_read_cont':
+src/abstractADC.c:366:26: warning: initialization of 'uint16_t *' {aka 'short unsigned int *'} from incompatible pointer type 'volatile uint32_t *' {aka 'volatile long unsigned int *'} [-Wincompatible-pointer-types]
+  366 |     uint16_t *src_addr = &ADC_DR(opencm_adc);
+      |                          ^
+src/abstractADC.c:396:53: warning: passing argument 4 of 'abst_init_dma_p2m_direct' from incompatible pointer type [-Wincompatible-pointer-types]
+  396 |                                                     src_addr,
+      |                                                     ^~~~~~~~
+      |                                                     |
+      |                                                     uint16_t * {aka short unsigned int *}
+In file included from src/abstractADC.c:2:
+./include/abstractDMA.h:30:53: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+   30 |                                           uint32_t *src_addr,
+      |                                           ~~~~~~~~~~^~~~~~~~
+src/abstractADC.c:397:53: warning: passing argument 5 of 'abst_init_dma_p2m_direct' from incompatible pointer type [-Wincompatible-pointer-types]
+  397 |                                                     dest_arr,
+      |                                                     ^~~~~~~~
+      |                                                     |
+      |                                                     uint16_t * {aka short unsigned int *}
+In file included from src/abstractADC.c:2:
+./include/abstractDMA.h:31:53: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+   31 |                                           uint32_t *dest_addr,
+      |                                           ~~~~~~~~~~^~~~~~~~~
+At top level:
+src/abstractADC.c:37:17: warning: '_abst_conv_adc_resolution' defined but not used [-Wunused-function]
+   37 | static uint32_t _abst_conv_adc_resolution(uint8_t resolution)
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+src/abstractDMA.c: In function '_abst_conv_dma':
+src/abstractDMA.c:17:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   17 |             return NULL;
+      |                    ^~~~
+src/abstractDMA.c: In function '_abst_conv_dma_rcc':
+src/abstractDMA.c:31:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   31 |             return NULL;
+      |                    ^~~~
+src/abstractDMA.c: In function 'abst_init_dma_p2m_direct':
+src/abstractDMA.c:77:46: warning: passing argument 3 of 'dma_set_peripheral_address' makes integer from pointer without a cast [-Wint-conversion]
+   77 |     dma_set_peripheral_address(dma, channel, src_addr);
+      |                                              ^~~~~~~~
+      |                                              |
+      |                                              uint32_t * {aka long unsigned int *}
+In file included from lib/libopencm3/include/libopencm3/stm32/f1/dma.h:34,
+                 from lib/libopencm3/include/libopencm3/stm32/dma.h:26,
+                 from src/abstractDMA.c:2:
+lib/libopencm3/include/libopencm3/stm32/common/dma_common_l1f013.h:411:14: note: expected 'uint32_t' {aka 'long unsigned int'} but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+  411 |     uint32_t address);
+      |     ~~~~~~~~~^~~~~~~
+src/abstractDMA.c:79:42: warning: passing argument 3 of 'dma_set_memory_address' makes integer from pointer without a cast [-Wint-conversion]
+   79 |     dma_set_memory_address(dma, channel, dest_addr);
+      |                                          ^~~~~~~~~
+      |                                          |
+      |                                          uint32_t * {aka long unsigned int *}
+In file included from lib/libopencm3/include/libopencm3/stm32/f1/dma.h:34,
+                 from lib/libopencm3/include/libopencm3/stm32/dma.h:26,
+                 from src/abstractDMA.c:2:
+lib/libopencm3/include/libopencm3/stm32/common/dma_common_l1f013.h:412:69: note: expected 'uint32_t' {aka 'long unsigned int'} but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+  412 | void dma_set_memory_address(uint32_t dma, uint8_t channel, uint32_t address);
+      |                                                            ~~~~~~~~~^~~~~~~
+src/abstractDMA.c:54:51: warning: unused parameter 'stream' [-Wunused-parameter]
+   54 |                                           uint8_t stream,
+      |                                           ~~~~~~~~^~~~~~
+In file included from src/abstractUSART.c:1:
+./include/abstractUSART.h:4:2: warning: #import is a deprecated GCC extension [-Wdeprecated]
+    4 | #import "abstractSTM32.h"
+      |  ^~~~~~
+In file included from src/abstractUSART.c:1:
+./include/abstractUSART.h:5:2: warning: #import is a deprecated GCC extension [-Wdeprecated]
+    5 | #import "fifo_buffer.h"
+      |  ^~~~~~
+src/abstractUSART.c: In function '_abst_conv_usart':
+src/abstractUSART.c:28:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   28 |             return NULL;
+      |                    ^~~~
+src/abstractUSART.c: In function '_abst_conv_usart_word_len':
+src/abstractUSART.c:42:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   42 |             return NULL;
+      |                    ^~~~
+src/abstractUSART.c: In function '_abst_conv_usart_irq':
+src/abstractUSART.c:83:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   83 |             return NULL;
+      |                    ^~~~
+src/abstractUSART.c: In function '_abst_conv_usart_rcc':
+src/abstractUSART.c:106:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+  106 |             return NULL;
+      |                    ^~~~
+src/abstractUSART.c: At top level:
+src/abstractUSART.c:114:6: warning: no previous prototype for 'abst_usart_start_sending' [-Wmissing-prototypes]
+  114 | void abst_usart_start_sending(struct abst_usart *usart)
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~
+src/abstractUSART.c: In function 'abst_usart_init':
+src/abstractUSART.c:148:22: warning: comparison between pointer and integer
+  148 |     if (opencm_usart == NULL)
+      |                      ^~
+src/abstractUSART.c:152:26: warning: comparison between pointer and integer
+  152 |     if (opencm_usart_rcc == NULL)
+      |                          ^~
+src/abstractUSART.c:156:25: warning: comparison between pointer and integer
+  156 |     if (opencm_word_len == NULL)
+      |                         ^~
+src/abstractUSART.c:160:26: warning: comparison between pointer and integer
+  160 |     if (opencm_usart_irq == NULL)
+      |                          ^~
+src/abstractUSART.c:183:68: warning: passing argument 3 of 'fifo_init' from incompatible pointer type [-Wincompatible-pointer-types]
+  183 |     struct fifo_buffer _RX_buff = fifo_init(buff_max_size, malloc, free);
+      |                                                                    ^~~~
+      |                                                                    |
+      |                                                                    void (*)(void *)
+In file included from ./include/abstractUSART.h:5,
+                 from src/abstractUSART.c:1:
+lib/fifo-buffer/include/fifo_buffer.h:77:38: note: expected 'void * (*)(size_t)' {aka 'void * (*)(unsigned int)'} but argument is of type 'void (*)(void *)'
+   77 |                              void *(*fifo_free)(size_t N));
+      |                              ~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+src/abstractUSART.c:189:68: warning: passing argument 3 of 'fifo_init' from incompatible pointer type [-Wincompatible-pointer-types]
+  189 |     struct fifo_buffer _TX_buff = fifo_init(buff_max_size, malloc, free);
+      |                                                                    ^~~~
+      |                                                                    |
+      |                                                                    void (*)(void *)
+In file included from ./include/abstractUSART.h:5,
+                 from src/abstractUSART.c:1:
+lib/fifo-buffer/include/fifo_buffer.h:77:38: note: expected 'void * (*)(size_t)' {aka 'void * (*)(unsigned int)'} but argument is of type 'void (*)(void *)'
+   77 |                              void *(*fifo_free)(size_t N));
+      |                              ~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+src/abstractUSART.c: In function 'abst_usart_send_msg':
+src/abstractUSART.c:210:63: warning: passing argument 2 of 'fifo_add_elements' from incompatible pointer type [-Wincompatible-pointer-types]
+  210 |     enum fifo_errors err = fifo_add_elements(usart->_TX_buff, data, N);
+      |                                                               ^~~~
+      |                                                               |
+      |                                                               uint16_t * {aka short unsigned int *}
+In file included from ./include/abstractUSART.h:5,
+                 from src/abstractUSART.c:1:
+lib/fifo-buffer/include/fifo_buffer.h:79:76: note: expected 'stored_data_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+   79 | enum fifo_errors fifo_add_elements(struct fifo_buffer *buff, stored_data_t elements[], buff_int_t N);
+      |                                                              ~~~~~~~~~~~~~~^~~~~~~~~~
+src/abstractUSART.c: In function 'abst_usart_read_elements':
+src/abstractUSART.c:247:12: warning: returning 'stored_data_t *' {aka 'long unsigned int *'} from a function with return type 'uint16_t' {aka 'short unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+  247 |     return fifo_read_elements(usart->_RX_buff, N, err);
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/abstractUSART.c: In function 'abst_usart_interraption_handler':
+src/abstractUSART.c:276:44: warning: passing argument 2 of 'fifo_add_elements' from incompatible pointer type [-Wincompatible-pointer-types]
+  276 |         fifo_add_elements(usart->_RX_buff, &data, 1);
+      |                                            ^~~~~
+      |                                            |
+      |                                            uint16_t * {aka short unsigned int *}
+In file included from ./include/abstractUSART.h:5,
+                 from src/abstractUSART.c:1:
+lib/fifo-buffer/include/fifo_buffer.h:79:76: note: expected 'stored_data_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+   79 | enum fifo_errors fifo_add_elements(struct fifo_buffer *buff, stored_data_t elements[], buff_int_t N);
+      |                                                              ~~~~~~~~~~~~~~^~~~~~~~~~
+src/abstractUSART.c: In function '_abst_conv_usart_stop_bits':
+src/abstractUSART.c:62:1: warning: control reaches end of non-void function [-Wreturn-type]
+   62 | }
+      | ^
+src/abstractUSART.c: In function 'abst_usart_send_msg':
+src/abstractUSART.c:215:1: warning: control reaches end of non-void function [-Wreturn-type]
+  215 | }
+      | ^
+src/abstractUSART.c: In function 'abst_usart_send_text':
+src/abstractUSART.c:233:1: warning: control reaches end of non-void function [-Wreturn-type]
+  233 | }
+      | ^
+In file included from src/abstractLOG.c:3:
+./include/abstractUSART.h:4:2: warning: #import is a deprecated GCC extension [-Wdeprecated]
+    4 | #import "abstractSTM32.h"
+      |  ^~~~~~
+In file included from src/abstractLOG.c:3:
+./include/abstractUSART.h:5:2: warning: #import is a deprecated GCC extension [-Wdeprecated]
+    5 | #import "fifo_buffer.h"
+      |  ^~~~~~
+src/abstractLOG.c:36:6: warning: no previous prototype for 'usart3_isr' [-Wmissing-prototypes]
+   36 | void usart3_isr(void)
+      |      ^~~~~~~~~~
+src/abstractLOG.c: In function 'abst_usart_log_send':
+src/abstractLOG.c:55:38: warning: passing argument 2 of 'abst_usart_send_text' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   55 |     abst_usart_send_text(&LOG_USART, msg);
+      |                                      ^~~
+In file included from src/abstractLOG.c:3:
+./include/abstractUSART.h:65:71: note: expected 'char *' but argument is of type 'const char *'
+   65 | enum abst_errors abst_usart_send_text(struct abst_usart *usart, char *text);
+      |                                                                 ~~~~~~^~~~
+src/abstractENCODER.c: In function 'abst_opencm_adv_timer_conv':
+src/abstractENCODER.c:24:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   24 |             return NULL;
+      |                    ^~~~
+src/abstractENCODER.c: In function 'abst_opencm_adv_timer_rcc_conv':
+src/abstractENCODER.c:40:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   40 |             return NULL;
+      |                    ^~~~
+src/abstractENCODER.c: In function 'abst_opencm_timer_div_conv':
+src/abstractENCODER.c:57:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   57 |             return NULL; // TIM_CR1_CKD_CK_INT
+      |                    ^~~~
+src/abstractENCODER.c: In function 'abst_opencm_adv_timer_irq_conv':
+src/abstractENCODER.c:73:20: warning: returning 'void *' from a function with return type 'uint32_t' {aka 'long unsigned int'} makes integer from pointer without a cast [-Wint-conversion]
+   73 |             return NULL;
+      |                    ^~~~
+src/abstractENCODER.c: In function 'abst_encoder_init':
+src/abstractENCODER.c:133:1: warning: control reaches end of non-void function [-Wreturn-type]
+  133 | }
+      | ^
+src/abstract_DC_drive.c:95:16: warning: initialization discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   95 |     .desired = &des_speed,
+      |                ^
+src/abstract_DC_drive.c:96:11: warning: initialization discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   96 |     .in = &fd_speed,
+      |           ^
+src/abstract_DC_drive.c:97:12: warning: initialization discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   97 |     .out = &motor_v,
+      |            ^
+src/abstract_DC_drive.c:98:13: warning: initialization discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   98 |     .time = &time
+      |             ^
+src/abstract_DC_drive.c: In function 'main':
+src/abstract_DC_drive.c:128:47: warning: passing argument 2 of 'abst_adc_read_cont' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  128 |                                               adc_vals, // Array of values
+      |                                               ^~~~~~~~
+In file included from src/abstract_DC_drive.c:8:
+lib/abstractSTM32Fx/include/abstractADC.h:70:46: note: expected 'uint16_t *' {aka 'short unsigned int *'} but argument is of type 'volatile uint16_t *' {aka 'volatile short unsigned int *'}
+   70 |                                     uint16_t dest_arr[],
+      |                                     ~~~~~~~~~^~~~~~~~~~
+src/abstract_DC_drive.c:127:22: warning: unused variable 'err' [-Wunused-variable]
+  127 |     enum abst_errors err = abst_adc_read_cont(pins_arr, // Array of pins
+      |                      ^~~
+src/abstract_DC_drive.c:125:24: warning: unused variable 'current' [-Wunused-variable]
+  125 |     volatile uint16_t *current = adc_vals + 1;
+      |                        ^~~~~~~
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_group_digital_write' in file 'build/release/libabst_stm32f1.a(abstractSTM32.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_toggle' in file 'build/release/libabst_stm32f1.a(abstractSTM32.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_digital_read' in file 'build/release/libabst_stm32f1.a(abstractSTM32.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_group_digital_read' in file 'build/release/libabst_stm32f1.a(abstractSTM32.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_stop_pwm_soft' in file 'build/release/libabst_stm32f1.a(abstractSTM32.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_pwm_hard' in file 'build/release/libabst_stm32f1.a(abstractSTM32.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_delay_us' in file 'build/release/libabst_stm32f1.a(abstractSTM32.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_stop_sleep' in file 'build/release/libabst_stm32f1.a(abstractSTM32.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_adc_init_single_conv' in file 'build/release/libabst_stm32f1.a(abstractADC.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_adc_read' in file 'build/release/libabst_stm32f1.a(abstractADC.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_usart_log_send' in file 'build/release/libabst_stm32f1.a(abstractLOG.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_usart_read_elements' in file 'build/release/libabst_stm32f1.a(abstractUSART.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.abst_usart_read_element' in file 'build/release/libabst_stm32f1.a(abstractUSART.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_start_conversion_direct' in file 'build/release/libopencm3.a(adc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_temperature_sensor' in file 'build/release/libopencm3.a(adc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_temperature_sensor' in file 'build/release/libopencm3.a(adc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_external_trigger_regular' in file 'build/release/libopencm3.a(adc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_external_trigger_injected' in file 'build/release/libopencm3.a(adc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_external_trigger_injected' in file 'build/release/libopencm3.a(adc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_calibration' in file 'build/release/libopencm3.a(adc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_set_sample_time_on_all_channels' in file 'build/release/libopencm3.a(adc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_analog_watchdog_regular' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_analog_watchdog_regular' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_analog_watchdog_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_analog_watchdog_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_discontinuous_mode_regular' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_discontinuous_mode_regular' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_discontinuous_mode_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_discontinuous_mode_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_automatic_injected_group_conversion' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_automatic_injected_group_conversion' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_analog_watchdog_on_all_channels' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_analog_watchdog_on_selected_channel' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_scan_mode' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_eoc_interrupt_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_eoc_interrupt_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_awd_interrupt' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_awd_interrupt' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_enable_eoc_interrupt' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_eoc_interrupt' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_set_left_aligned' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_set_right_aligned' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_eoc' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_eoc_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_read_regular' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_read_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_set_single_conversion_mode' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_set_watchdog_high_threshold' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_set_watchdog_low_threshold' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_set_injected_sequence' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_set_injected_offset' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_start_conversion_injected' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_disable_dma' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_get_flag' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.adc_clear_flag' in file 'build/release/libopencm3.a(adc_common_v1.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_channel_reset' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_clear_interrupt_flags' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_get_interrupt_flag' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_enable_mem2mem_mode' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_enable_peripheral_increment_mode' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_set_read_from_memory' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_enable_transfer_error_interrupt' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_disable_transfer_error_interrupt' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_enable_half_transfer_interrupt' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_disable_half_transfer_interrupt' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_enable_transfer_complete_interrupt' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_disable_transfer_complete_interrupt' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.dma_get_number_of_data' in file 'build/release/libopencm3.a(dma_common_l1f013.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.gpio_set_eventout' in file 'build/release/libopencm3.a(gpio.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.gpio_primary_remap' in file 'build/release/libopencm3.a(gpio.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.gpio_secondary_remap' in file 'build/release/libopencm3.a(gpio.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.gpio_get' in file 'build/release/libopencm3.a(gpio_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.gpio_toggle' in file 'build/release/libopencm3.a(gpio_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.gpio_port_read' in file 'build/release/libopencm3.a(gpio_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.gpio_port_write' in file 'build/release/libopencm3.a(gpio_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.gpio_port_config_lock' in file 'build/release/libopencm3.a(gpio_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_osc_ready_int_clear' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_osc_ready_int_enable' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_osc_ready_int_disable' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_osc_ready_int_flag' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_css_int_clear' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_css_int_flag' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_is_osc_ready' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_wait_for_osc_ready' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_osc_on' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_osc_off' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_css_enable' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_css_disable' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_sysclk_source' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_pll_multiplication_factor' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_pll2_multiplication_factor' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_pll3_multiplication_factor' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_pll_source' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_pllxtpre' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_rtc_clock_enabled_flag' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_enable_rtc_clock' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_rtc_clock_source' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_ppre2' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_ppre1' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_hpre' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_usbpre' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_prediv1' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_prediv2' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_prediv1_source' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_system_clock_source' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_clock_setup_in_hsi_out_64mhz' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_clock_setup_in_hsi_out_48mhz' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_clock_setup_in_hsi_out_24mhz' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_clock_setup_in_hse_8mhz_out_24mhz' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_clock_setup_in_hse_8mhz_out_72mhz' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_clock_setup_in_hse_12mhz_out_72mhz' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_clock_setup_in_hse_16mhz_out_72mhz' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_clock_setup_in_hse_25mhz_out_72mhz' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_backupdomain_reset' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.data.rcc_ahb_frequency' in file 'build/release/libopencm3.a(rcc.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_peripheral_enable_clock' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_peripheral_disable_clock' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_peripheral_reset' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_peripheral_clear_reset' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_periph_clock_disable' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_periph_reset_pulse' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_periph_reset_hold' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_periph_reset_release' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_set_mco' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_osc_bypass_enable' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.rcc_osc_bypass_disable' in file 'build/release/libopencm3.a(rcc_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_irq' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_interrupt_source' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_get_flag' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_clock_division' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_enable_preload' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_preload' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_alignment' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_direction_up' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_direction_down' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_one_shot_mode' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_update_on_any' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_enable_update_event' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_update_event' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_counter' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_output_idle_state' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_reset_output_idle_state' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_ti1_ch123_xor' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_ti1_ch1' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_master_mode' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_dma_on_compare_event' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_dma_on_update_event' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_enable_compare_control_update_on_trigger' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_compare_control_update_on_trigger' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_enable_preload_complementry_enable_bits' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_preload_complementry_enable_bits' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_repetition_counter' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_enable_oc_clear' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_oc_clear' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_oc_fast_mode' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_oc_slow_mode' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_enable_oc_preload' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_oc_preload' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_oc_polarity_high' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_oc_polarity_low' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_oc_output' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_oc_idle_state_set' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_oc_idle_state_unset' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_oc_value' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_break_main_output' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_enable_break_automatic_output' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_break_automatic_output' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_break_polarity_high' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_break_polarity_low' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_enable_break' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_disable_break' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_enabled_off_state_in_run_mode' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_disabled_off_state_in_run_mode' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_enabled_off_state_in_idle_mode' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_disabled_off_state_in_idle_mode' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_break_lock' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_deadtime' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_generate_event' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_set_counter' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_ic_set_filter' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_ic_set_prescaler' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_ic_disable' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_slave_set_filter' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_slave_set_prescaler' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.timer_slave_set_trigger' in file 'build/release/libopencm3.a(timer_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_set_parity' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_set_flow_control' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_disable' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_send_blocking' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_recv_blocking' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_enable_rx_dma' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_enable_tx_dma' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_disable_rx_interrupt' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_enable_error_interrupt' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_disable_error_interrupt' in file 'build/release/libopencm3.a(usart_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_wait_send_ready' in file 'build/release/libopencm3.a(usart_common_f124.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.usart_wait_recv_ready' in file 'build/release/libopencm3.a(usart_common_f124.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.systick_set_reload' in file 'build/release/libopencm3.a(systick.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.systick_get_reload' in file 'build/release/libopencm3.a(systick.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.systick_get_value' in file 'build/release/libopencm3.a(systick.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.systick_interrupt_disable' in file 'build/release/libopencm3.a(systick.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.systick_get_countflag' in file 'build/release/libopencm3.a(systick.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.systick_get_calib' in file 'build/release/libopencm3.a(systick.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.nvic_disable_irq' in file 'build/release/libopencm3.a(nvic.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.nvic_get_pending_irq' in file 'build/release/libopencm3.a(nvic.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.nvic_set_pending_irq' in file 'build/release/libopencm3.a(nvic.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.nvic_clear_pending_irq' in file 'build/release/libopencm3.a(nvic.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.nvic_get_irq_enabled' in file 'build/release/libopencm3.a(nvic.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.nvic_set_priority' in file 'build/release/libopencm3.a(nvic.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.nvic_get_active_irq' in file 'build/release/libopencm3.a(nvic.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.nvic_generate_software_interrupt' in file 'build/release/libopencm3.a(nvic.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.cm3_assert_failed' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.cm3_assert_failed_verbose' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_info' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_abbrev' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_loc' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_aranges' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_ranges' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.0.ba15b55aadeeb54ee7ec94f46fe68669]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.common.h.21.c9066c2f6b12c71b40226ea6107829a4]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.features.h.33.318b64d71e0957639cfb30f1db1f7ec8]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.common.h.67.5c568a1f62c8e726909b04e29f9e1fc0]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.assert.h.53.565a4ee64503b1a51b0509de816d9092]' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_line' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_str' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.comment' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_frame' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.ARM.attributes' in file 'build/release/libopencm3.a(assert.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.group' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.flash_prefetch_enable' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.flash_prefetch_disable' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.flash_set_ws' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.flash_unlock_option_bytes' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_info' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_abbrev' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_loc' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_aranges' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_ranges' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.0.ba15b55aadeeb54ee7ec94f46fe68669]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.common.h.21.c9066c2f6b12c71b40226ea6107829a4]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.features.h.33.318b64d71e0957639cfb30f1db1f7ec8]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.common.h.67.5c568a1f62c8e726909b04e29f9e1fc0]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.memorymap.h.21.8c90486dae5eea2d8efddd23fe5d09d9]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.memorymap.h.28.604d7358fc0612658e4a83c212b80b62]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.flash_common_f01.h.35.08a510204460b203acd9a4d6dd59edc6]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_macro[wm4.flash.h.55.42f95aa46a0865597bcfe2be66f7631d]' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_line' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_str' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.comment' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_frame' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.ARM.attributes' in file 'build/release/libopencm3.a(flash_common_all.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.fifo_read_elements' in file 'build/release/libfifo.a(fifo_buffer.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.list_destroy' in file 'build/release/liblist.a(list.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.list_rpush' in file 'build/release/liblist.a(list.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.list_rpop' in file 'build/release/liblist.a(list.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.list_lpop' in file 'build/release/liblist.a(list.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.list_at' in file 'build/release/liblist.a(list.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.list_remove' in file 'build/release/liblist.a(list.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/thumb/v7-m/nofp/libgcc.a(_arm_muldf3.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_frame' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/thumb/v7-m/nofp/libgcc.a(_arm_muldf3.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.ARM.attributes' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/thumb/v7-m/nofp/libgcc.a(_arm_muldf3.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/thumb/v7-m/nofp/libgcc.a(_arm_cmpdf2.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.debug_frame' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/thumb/v7-m/nofp/libgcc.a(_arm_cmpdf2.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.ARM.attributes' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/thumb/v7-m/nofp/libgcc.a(_arm_cmpdf2.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.rodata._global_impure_ptr' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__ssprint_r' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-svfprintf.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.cleanup_glue' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text._reclaim_reent' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__retarget_lock_init' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-lock.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__retarget_lock_init_recursive' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-lock.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__retarget_lock_close' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-lock.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__retarget_lock_close_recursive' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-lock.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__retarget_lock_acquire' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-lock.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__retarget_lock_try_acquire' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-lock.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__retarget_lock_try_acquire_recursive' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-lock.o)'
+/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/bin/ld: removing unused section '.text.__retarget_lock_release' in file '/usr/lib/gcc/arm-none-eabi/10.2.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-lock.o)'
+/bin/sh: openocd: command not found
+make[1]: *** [Makefile:230: flash] Error 127
+make: *** [Makefile:269: release-flash] Error 2
