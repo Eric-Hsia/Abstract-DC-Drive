@@ -88,12 +88,12 @@ struct abst_pin_group ENC = {
 
 struct abst_encoder encoder;
 
-volatile uint32_t des_speed = 0;
-volatile uint32_t fd_speed = 0;
-volatile uint32_t motor_v = 0;
+volatile int32_t des_speed = 0;
+volatile int32_t fd_speed = 0;
+volatile int32_t motor_v = 0;
 volatile uint32_t time = 0;
 
-struct int_pid PID = {
+struct int_pid PID_speed = {
     .P = 10e6,
     .D = 0,
     .I = 1e4,
@@ -104,40 +104,59 @@ struct int_pid PID = {
     .time = &time
 };
 
+volatile int32_t des_current = 0;
+volatile int32_t fd_current = 0;
+
+struct int_pid PID_current = {
+    .P = 10e5,
+    .D = 0,
+    .I = 1e3,
+    .div = 1e6,
+    .desired = &des_current,
+    .in = &fd_current,
+    .out = &motor_v,
+    .time = &time
+};
+
 void motor_set_pwm(int16_t input);
+uint16_t avrg(uint16_t array[], uint16_t N);
 
 int main(void)
 {
-    abst_init(8e6, 0);
+    rcc_clock_setup_in_hse_8mhz_out_72mhz();
+    abst_init(72e6, 700);
     abst_log_init(9600);
 
-    struct pid_settings speed_pid_settings = {
-        .P = 10e6,
-        .D = 123e5,
-        .I = 1e4,
-        .div = 1e6
-    };
-    
+//     struct pid_settings speed_pid_settings = {
+//         .P = 10e6,
+//         .D = 123e5,
+//         .I = 1e4,
+//         .div = 1e6,
+//         .aver_N = 50,
+//     };
+//     
 //     bool w_status = write_settings_flash(&speed_pid_settings, SPEED_PID);
 //     if (!w_status) {
 //         abst_log("Cannot write settings into FLASH\n");
 //         return 1;
 //     }
-    
-    speed_pid_settings.P = 0;
-    speed_pid_settings.I = 0;
-    speed_pid_settings.D = 0;
-    speed_pid_settings.div = 0;
-    
-    if (!read_settings_flash(&speed_pid_settings, SPEED_PID)) {
-        abst_log("Could not read the settings of Speed PID\n");
-        return 1;
-    }
-    
-    abst_logf("P: %i, I: %i, D: %i, div: %i\n", (int)speed_pid_settings.P, 
-                                                (int)speed_pid_settings.I, 
-                                                (int)speed_pid_settings.D,
-                                                (int)speed_pid_settings.div);
+//     
+//     speed_pid_settings.P = 0;
+//     speed_pid_settings.I = 0;
+//     speed_pid_settings.D = 0;
+//     speed_pid_settings.div = 0;
+//     speed_pid_settings.aver_N = 0;
+//     
+//     if (!read_settings_flash(&speed_pid_settings, SPEED_PID)) {
+//         abst_log("Could not read the settings of Speed PID\n");
+//         return 1;
+//     }
+//     
+//     abst_logf("P: %i, I: %i, D: %i, div: %i, aver_N: %i\n", (int)speed_pid_settings.P, 
+//                                                             (int)speed_pid_settings.I, 
+//                                                             (int)speed_pid_settings.D,
+//                                                             (int)speed_pid_settings.div,
+//                                                             (int)speed_pid_settings.aver_N);
     
     
     abst_gpio_init(&DC_OUT1);
@@ -150,7 +169,8 @@ int main(void)
                       1, // Timer
                       ABST_TIM_DIV_2); // Divider
 
-    pid_init(&PID);
+    pid_init(&PID_speed);
+    pid_init(&PID_current);
 
     struct abst_pin *pins_arr[] = {&pot_ch, &current_ch};
     uint8_t N = sizeof(pins_arr) / sizeof(pins_arr[0]);
@@ -162,7 +182,7 @@ int main(void)
     enum abst_errors err = abst_adc_read_cont(pins_arr, // Array of pins
                                               adc_vals, // Array of values
                                               N, // Length of array
-                                              2,  // Prescale
+                                              8,  // Prescale
                                               1); // Prior of DMA requests
 
     int64_t enc_val = 0;
@@ -173,8 +193,14 @@ int main(void)
     uint32_t log = 0;
 
     abst_digital_write(&DC_EN, 0); // Run the motor
-
+    
+    uint16_t current_N = 80;
+    uint16_t current_i = 0;
+    uint16_t current_arr[current_N];
+    for (uint16_t i = 0; i < current_N; i++)
+        current_arr[i] = 0;
     while (1) {
+        // SPEED
         enc_val_prev = enc_val;
         enc_val = abst_encoder_read(&encoder);
         
@@ -185,27 +211,43 @@ int main(void)
 
         des_speed = *input / 8 - 255;
 
-        pid_update(&PID);
-
-        motor_set_pwm(motor_v);
-
-        if (log % 1 == 0) {
+//         pid_update(&PID_speed);
+        
+//         motor_set_pwm(motor_v);
+        // CURRENT
+        fd_current = avrg(current_arr, current_N);
+        
+        des_current = *input / 16;
+        
+        pid_update(&PID_current);
+        
+        if (motor_v < 0)
+            motor_v = 0;
+        
+        motor_set_pwm(-motor_v);
+        
+        if (log % 50 == 0) {
             log = 0;
-            // abst_logf("Input: %i, Current: %i, ", (int)des_speed, (int)*current);
-            // abst_logf("Enc: %i, Speed: %i, ", (int)enc_val, (int)fd_speed);
-            // abst_logf("PWM: %i, ", (int)motor_v);
-            // abst_logf("P: %i, I: %i, D: %i\n", (int)pid_dbg.P, (int)pid_dbg.I, (int)pid_dbg.D);
+//             for (int i = 0; i < N; i++) {
+//                 abst_logf("%i = %i, ", i, adc_vals[i]);
+//             }
+//             abst_log("\n");
+            
+            abst_logf("Des_current: %i, Current: %i, Motor_V: %i\n", (int)des_current, (int)fd_current, (int)motor_v);
+//             abst_logf("Enc: %i, Speed: %i, ", (int)enc_val, (int)fd_speed);
+//             abst_logf("PWM: %i, ", (int)motor_v);
+//             abst_logf("P: %i, I: %i, D: %i\n", (int)pid_dbg.P, (int)pid_dbg.I, (int)pid_dbg.D);
 //             abst_logf("Input: %i, Speed: %i\n", (int)des_speed, (int)fd_speed);
         }
         log++;
-        abst_delay_ms(50);
+        
+        current_arr[current_i++] = *(current) >> 2;
+        if (current_i % (current_N + 1) == 0)
+            current_i = 0;
+        abst_delay_ms(2);
     }
 }
 
-void tim1_up_isr(void)
-{
-    abst_encoder_interrupt_handler(&encoder);
-}
 
 // Motor control using driver
 void motor_set_pwm(int16_t input)
@@ -230,4 +272,18 @@ void motor_set_pwm(int16_t input)
 
     abst_pwm_soft(&DC_OUT1, ch1);
     abst_pwm_soft(&DC_OUT2, ch2);
+}
+
+// Average of an array
+uint16_t avrg(uint16_t array[], uint16_t N)
+{
+    uint32_t summ = 0;
+    for (uint16_t i = 0; i < N; i++)
+        summ += array[i];
+    return summ / N;
+}
+
+void tim1_up_isr(void)
+{
+    abst_encoder_interrupt_handler(&encoder);
 }

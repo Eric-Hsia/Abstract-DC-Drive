@@ -12,10 +12,13 @@ const int32_t *pid_current_flash = 0x08000000 + 61 * 1024;
 
 static bool all_ones(struct pid_settings *settings)
 {
-    return ( (settings->P == -1) && 
-             (settings->I == -1) && 
-             (settings->D == -1) && 
-             (settings->div == -1) );
+    int32_t *array = (int32_t *)settings;
+    uint16_t N = sizeof(*settings) / sizeof(int32_t);
+    for (uint16_t i = 0; i < N; i++) {
+        if (array[i] != -1)
+            return false;
+    }
+    return true;
 }
 
 /**

@@ -17,6 +17,8 @@ struct pid_settings
     int32_t D;
     /** Coefficient on which will be divided all coefficients. Should be greater than 0 */
     int32_t div;
+    /** Find average in N last measurment before using as feedback signal */
+    uint32_t aver_N;
 };
 
 /**

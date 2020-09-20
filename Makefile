@@ -7,7 +7,7 @@ SRCS = $(TARGET).c
 SRCS += flash.c
 
 # Libraries as submodules
-LIBS_SUBM := opencm3 fifo list pid
+LIBS_SUBM := opencm3 fifo pid
 
 DEFINES =
 # The libs which are linked to the resulting target. Note some libs links below
@@ -72,7 +72,6 @@ endif
 # ==============================================================
 
 LIBS += $(addprefix -l,$(LIBS_SUBM))
-#LIBS += -lopencm3 -llist -lfifo
 
 # Directory with project sources
 SRC_DIR ?= src
@@ -89,8 +88,8 @@ OPENCM3_DIR = $(ABSTSTM32_DIR)/lib/libopencm3
 # Definitions required to generate linker script
 include $(OPENCM3_DIR)/mk/genlink-config.mk
 
-LIST_DIR = $(ABSTSTM32_DIR)/lib/list
 FIFO_DIR = $(ABSTSTM32_DIR)/lib/fifo-buffer
+VECTOR_DIR = $(ABSTSTM32_DIR)/lib/c-vector
 PID_DIR = $(LIB_DIR)/int-PID
 
 CFLAGS := $(ARCHFLAGS)
@@ -143,8 +142,8 @@ INCS =  -I./include
 INCS += -I$(OPENCM3_DIR)/include 
 INCS += -I$(ABSTSTM32_DIR)/include 
 INCS +=  $(addprefix -I,$(INC_DIRS))
-INCS += -I$(LIST_DIR)/src
 INCS += -I$(FIFO_DIR)/include
+INCS += -I$(VECTOR_DIR)
 INCS += -I$(PID_DIR)/include
 
 OBJECTS = $(SRCS:.c=.o)
@@ -191,9 +190,6 @@ $(ABSTSTM32_DIR)/build/libopencm3.a: $(ABSTSTM32_DIR)/Makefile
 
 $(ABSTSTM32_DIR)/build/libabst_$(TARGET_ABST).a: $(ABSTSTM32_DIR)/Makefile
 	cd $(ABSTSTM32_DIR) && $(MAKE) $(MAKEFLAGS) PROFILE=$(PROFILE) TARGETS=$(TARGET_ABST) V=$(V) clean all
-
-$(ABSTSTM32_DIR)/build/liblist.a: $(ABSTSTM32_DIR)/Makefile
-	cd $(ABSTSTM32_DIR) && $(MAKE) $(MAKEFLAGS) TARGETS=$(TARGET_ABST) V=1 clean all
 
 $(FIFO_DIR)/.build/libfifo.a:
 	cd $(FIFO_DIR) && $(MAKE) $(MAKEFLAGS) CC=$(CC) AR=$(AR) CFLAGS="$(CFLAGS)" V=1 clean static_stm32
@@ -255,7 +251,6 @@ clean:
 ## Remove everything created during builds
 tidy: clean
 	cd $(ABSTSTM32_DIR) && $(MAKE) V=1 clean
-	cd $(LIST_DIR) && $(MAKE) clean
 	cd $(OPENCM3_DIR) && $(MAKE) TARGETS="$(LIBOPENCM3_TARGET)" V=1 clean
 	cd $(FIFO_DIR) && $(MAKE) clean
 	cd $(PID_DIR) && $(MAKE) clean
