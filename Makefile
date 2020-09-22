@@ -5,6 +5,10 @@ DEVICE ?= stm32f103c8t6
 # All source files go here:
 SRCS = $(TARGET).c
 SRCS += flash.c
+SRCS += measurements.c
+SRCS += motor.c
+SRCS += regulators.c
+SRCS += can.c
 
 # Libraries as submodules
 LIBS_SUBM := opencm3 fifo pid

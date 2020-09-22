@@ -8,6 +8,7 @@
 const uint16_t page_size = 1024 / 4;
 const int32_t *pid_speed_flash = 0x08000000 + 60 * 1024;
 const int32_t *pid_current_flash = 0x08000000 + 61 * 1024;
+const int32_t *pid_position_flash = 0x08000000 + 62 * 1024;
 
 
 static bool all_ones(struct pid_settings *settings)
@@ -21,6 +22,23 @@ static bool all_ones(struct pid_settings *settings)
     return true;
 }
 
+static const int32_t *addr_conv(enum pid_types type)
+{
+    switch (type) {
+        case SPEED_PID:
+            return pid_speed_flash;
+            break;
+        case CURRENT_PID:
+            return pid_current_flash;
+            break;
+        case POSITION_PID:
+            return pid_position_flash;
+            break;
+        default:
+            return false;
+    }
+}
+
 /**
  * Read settings of PID regulator from FLASH
  * 
@@ -30,19 +48,8 @@ static bool all_ones(struct pid_settings *settings)
  */
 bool read_settings_flash(struct pid_settings *settings, enum pid_types type)
 {
-    int32_t *addr = 0;
-    switch (type) {
-        case SPEED_PID:
-            addr = pid_speed_flash;
-            break;
-        case CURRENT_PID:
-            addr = pid_current_flash;
-            break;
-        default:
-            return false;
-    }
-    
-        
+    const int32_t *addr = addr_conv(type);
+
     struct pid_settings buff = {0};
     uint16_t step = sizeof(buff) / sizeof(int32_t);
     for (uint16_t i = 0; i < page_size; i++) {
@@ -69,19 +76,7 @@ bool read_settings_flash(struct pid_settings *settings, enum pid_types type)
  */
 bool write_settings_flash(struct pid_settings *settings, enum pid_types type)
 {
-    int32_t *addr = 0;
-    int32_t *setting_addr = 0;
-    
-    switch (type) {
-        case SPEED_PID:
-            addr = pid_speed_flash;
-            break;
-        case CURRENT_PID:
-            addr = pid_current_flash;
-            break;
-        default:
-            return false;
-    }
+    const int32_t *addr = addr_conv(type);
     
     struct pid_settings buff = {0};
     uint16_t step = sizeof(buff) / sizeof(int32_t);
@@ -102,4 +97,4 @@ bool write_settings_flash(struct pid_settings *settings, enum pid_types type)
     
     abst_flash_write(addr + i * step, step, (int32_t *)settings);
     return true;
-}
+ } 
