@@ -140,6 +140,11 @@ void set_current_n_aver(uint32_t N)
     current_N = N;
 }
 
+uint32_t get_current_n_aver(void)
+{
+    return current_N;
+}
+
 // Average of an array
 static uint16_t avrg(uint16_t array[], uint16_t N)
 {

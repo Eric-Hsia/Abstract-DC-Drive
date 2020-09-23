@@ -6,9 +6,9 @@
 
 /** Size of a page in words */
 const uint16_t page_size = 1024 / 4;
-const int32_t *pid_speed_flash = 0x08000000 + 60 * 1024;
-const int32_t *pid_current_flash = 0x08000000 + 61 * 1024;
-const int32_t *pid_position_flash = 0x08000000 + 62 * 1024;
+const int32_t *pid_speed_flash = 0x08000000 + 50 * 1024;
+const int32_t *pid_current_flash = 0x08000000 + 51 * 1024;
+const int32_t *pid_position_flash = 0x08000000 + 52 * 1024;
 
 
 static bool all_ones(struct pid_settings *settings)

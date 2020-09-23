@@ -34,4 +34,6 @@ void change_pid_settings(uint8_t data[], uint8_t N);
 
 void set_desired_value(uint8_t data[], uint8_t N);
 
+int32_t regulator_get_fd_speed(void);
+
 #endif //_REGULATORS_H_

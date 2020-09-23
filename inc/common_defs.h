@@ -53,4 +53,17 @@ enum pid_fields
     PID_FIELD_AVER_N,
 };
 
+/** Info data to send throught CAN */
+enum log_types
+{
+    /** Position */
+    LOG_POSITION = 0,
+    /** Feedback speed */
+    LOG_SPEED,
+    /** Feedback current */
+    LOG_CURRENT,
+    /** Temperature */
+    LOG_TEMPERATURE,
+};
+
 #endif // _COMMON_DEFS_H_

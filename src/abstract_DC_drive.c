@@ -2,7 +2,9 @@
  * Absrtact DC Drive Project
  *
  * make PROFILE=release LOG=1 tidy all
+ * make PROFILE=debug LOG=1 tidy all
  */
+#define ADC_NO_CALIBR
 
 #include "flash.h"
 #include "regulators.h"
@@ -13,37 +15,62 @@
 #include <abstractSTM32.h>
 #include <abstractLOG.h>
 #include <libopencm3/stm32/rcc.h>
+#include <abstractCAN.h>
+
+#include "libopencm3/cm3/nvic.h"
+#include <libopencm3/cm3/cortex.h>
+#include <libopencm3/stm32/can.h>
+
 
 void log_usart(void);
 
 void lib_init(void)
 {
     rcc_clock_setup_in_hse_8mhz_out_72mhz();
-    abst_init(72e6, 700);
+    rcc_set_ppre1(RCC_CFGR_PPRE1_HCLK_DIV16);
+    rcc_apb1_frequency = 72e6 / 16;
+    abst_init(72e6, 100);
     abst_log_init(9600);
     
+    abst_log("Log i\n");
     regulators_init();
+    abst_log("Regulators i\n");
     motor_init();
+    abst_log("Motor i\n");
     measurements_init();
-    can_bus_init();
+    abst_log("Mesurments i\n");
+    while(!can_bus_init());
+    abst_log("CAN i\n");
 }
 
+struct abst_pin can_RX_main = {
+    .port = ABST_GPIOA,
+    .num = 11,
+    .mode = ABST_MODE_AF,
+    .af_dir = ABST_AF_INPUT,
+    .otype = ABST_OTYPE_PP,
+    .speed = ABST_OSPEED_50MHZ,
+    .pull_up_down = ABST_PUPD_NONE,
+    .is_inverse = false
+};
 
 int main(void)
 {
     lib_init();
-    
+    abst_log("Start program\n");
+    abst_delay_ms(1e3);
     while (1) {
         update_measurements();
         regulators_update();
         log_usart();
-        abst_delay_ms(2);
+        abst_log("--------------"); // Delimeter
+        abst_delay_ms(100);
     }
 }
 
 void log_usart(void)
 {
-//     static uint32_t log = 0;
+    static uint32_t log = 0;
 //     
 //     if (log % 50 == 0) {
 //         log = 0;

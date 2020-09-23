@@ -3,7 +3,7 @@
 
 struct abst_pin DC_OUT1 = {
     .port = ABST_GPIOA,
-    .num = 12,
+    .num = 5,
     .mode = ABST_MODE_OUTPUT,
     .otype = ABST_OTYPE_PP,
     .speed = ABST_OSPEED_2MHZ,
@@ -13,7 +13,7 @@ struct abst_pin DC_OUT1 = {
 
 struct abst_pin DC_OUT2 = {
     .port = ABST_GPIOA,
-    .num = 11,
+    .num = 6,
     .mode = ABST_MODE_OUTPUT,
     .otype = ABST_OTYPE_PP,
     .speed = ABST_OSPEED_2MHZ,

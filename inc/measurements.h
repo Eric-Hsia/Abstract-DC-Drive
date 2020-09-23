@@ -13,4 +13,6 @@ int64_t get_current_value(void);
 
 void set_current_n_aver(uint32_t N);
 
+uint32_t get_current_n_aver(void);
+
 #endif //_MEASUREMENTS_H_
