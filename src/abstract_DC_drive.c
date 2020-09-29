@@ -64,7 +64,7 @@ int main(void)
         regulators_update();
         log_usart();
         abst_log("--------------"); // Delimeter
-        abst_delay_ms(100);
+        abst_delay_ms(200);
     }
 }
 

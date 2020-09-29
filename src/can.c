@@ -49,7 +49,7 @@ static const struct abst_can can_settings =
     .silent = false      /* Silent mode */
 };
 
-static struct abst_can_filter_32_bit CAN_SETUP_COMMANDS = 
+static struct abst_can_filter_16_bit CAN_SETUP_COMMANDS = 
 {
     .filter_id = 0, /* Filter ID */
     .id1 = 200,     /* First message ID to match. Increasing by **id_offset** while initializtion */
@@ -58,7 +58,7 @@ static struct abst_can_filter_32_bit CAN_SETUP_COMMANDS =
     .enable = true  /* Enable Filter */
 };
 
-static struct abst_can_filter_32_bit CAN_SET_DES_VALUE_COMMANDS = 
+static struct abst_can_filter_16_bit CAN_SET_DES_VALUE_COMMANDS = 
 {
     .filter_id = 1, /* Filter ID */
     .id1 = 100,     /* First message ID to match. Increasing by **id_offset** while initializtion*/
@@ -67,7 +67,7 @@ static struct abst_can_filter_32_bit CAN_SET_DES_VALUE_COMMANDS =
     .enable = true  /* Enable Filter */
 };
 
-static struct abst_can_filter_32_bit CAN_LOG_REQUEST_COMMANDS = 
+static struct abst_can_filter_16_bit CAN_LOG_REQUEST_COMMANDS = 
 {
     .filter_id = 2,  /* Filter ID */
     .id1 = 800,      /* First message ID to match. Increasing by **id_offset** while initializtion */
@@ -119,11 +119,11 @@ bool can_bus_init(void)
     LOG_CURRENT_CAN_ID += id_offset;
     LOG_TEMPERATURE_CAN_ID += id_offset;
     
-    abst_can_init_filter_32_bit(&CAN_SETUP_COMMANDS);
+    abst_can_init_filter_16_bit(&CAN_SETUP_COMMANDS);
     
-    abst_can_init_filter_32_bit(&CAN_SET_DES_VALUE_COMMANDS);
+    abst_can_init_filter_16_bit(&CAN_SET_DES_VALUE_COMMANDS);
     
-    abst_can_init_filter_32_bit(&CAN_LOG_REQUEST_COMMANDS);
+    abst_can_init_filter_16_bit(&CAN_LOG_REQUEST_COMMANDS);
 
 //     can_filter_id_mask_32bit_init(
 //             0,     /* Filter ID */
@@ -139,7 +139,8 @@ bool can_bus_init(void)
 // Interrupt handler
 void usb_lp_can_rx0_isr(void)
 {
-    abst_log("\n\n\n\nCAN interrupt\n");
+    abst_log("###################\n");
+    abst_log("CAN interrupt\n");
     abst_logf("Fifo pending: %i\n", abst_can_get_fifo_pending(1, 0));
 
     uint8_t fifo = 0;

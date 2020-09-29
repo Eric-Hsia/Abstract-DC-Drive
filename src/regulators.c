@@ -116,11 +116,13 @@ void regulators_init(void)
  */
 void regulators_update(void)
 {
+    abst_log("##############\n");
     abst_logf("Upd regulators: %i\n", (int)pid_mode);
     abst_logf("des_speed: %i\n", (int)des_speed);
     abst_logf("des_current: %i\n", (int)des_current);
     abst_logf("des_position: %i\n", (int)des_position);
     abst_logf("motor_v: %i\n", (int)motor_v);
+    abst_log("==============\n");
     
     switch (pid_mode) {
         case SPEED_PID:
@@ -149,6 +151,7 @@ void regulators_update(void)
  */
 void change_pid_settings(uint8_t data[], uint8_t N)
 {
+    abst_log("##############\n");
     abst_log("Change PID set\n");
     uint8_t pid_type = 0;
     
@@ -165,6 +168,7 @@ void change_pid_settings(uint8_t data[], uint8_t N)
               (int)settings->pid_type, 
               (int)settings->pid_field,
               (int)settings->value);
+    abst_log("==============\n");
     
     struct int_pid *pid;
     switch (settings->pid_type) {
@@ -214,6 +218,7 @@ void change_pid_settings(uint8_t data[], uint8_t N)
  */
 void set_desired_value(uint8_t data[], uint8_t N)
 {
+    abst_log("##############\n");
     abst_log("Change PID des\n");
     if (N != sizeof(struct pid_des_value_msg))
         return; // Unknown message format
@@ -223,6 +228,7 @@ void set_desired_value(uint8_t data[], uint8_t N)
     abst_logf("Type: %i, Value: %i\n", 
               (int)message->pid_type, 
               (int)message->value);
+    abst_log("==============\n");
     
     switch (message->pid_type) {
         case SPEED_PID:
