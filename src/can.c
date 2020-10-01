@@ -52,8 +52,8 @@ static const struct abst_can can_settings =
 static struct abst_can_filter_16_bit CAN_SETUP_COMMANDS = 
 {
     .filter_id = 0, /* Filter ID */
-    .id1 = 200,     /* First message ID to match. Increasing by **id_offset** while initializtion */
-    .id2 = 200,     /* Second message ID to match. Used for brodcast */
+    .id1 = 200,     /* First message ID to match. Used for brodcast */
+    .id2 = 200,     /* Second message ID to match. Increasing by **id_offset** while initializtion */
     .fifo = 0,      /* FIFO ID. */
     .enable = true  /* Enable Filter */
 };
@@ -61,8 +61,8 @@ static struct abst_can_filter_16_bit CAN_SETUP_COMMANDS =
 static struct abst_can_filter_16_bit CAN_SET_DES_VALUE_COMMANDS = 
 {
     .filter_id = 1, /* Filter ID */
-    .id1 = 100,     /* First message ID to match. Increasing by **id_offset** while initializtion*/
-    .id2 = 100,     /* Second message ID to match. Used for brodcast */
+    .id1 = 100,     /* First message ID to match. Used for brodcast */
+    .id2 = 100,     /* Second message ID to match. Increasing by **id_offset** while initializtion*/
     .fifo = 0,      /* FIFO ID. */
     .enable = true  /* Enable Filter */
 };
@@ -70,9 +70,9 @@ static struct abst_can_filter_16_bit CAN_SET_DES_VALUE_COMMANDS =
 static struct abst_can_filter_16_bit CAN_LOG_REQUEST_COMMANDS = 
 {
     .filter_id = 2,  /* Filter ID */
-    .id1 = 800,      /* First message ID to match. Increasing by **id_offset** while initializtion */
-    .id2 = 800,      /* Second message ID to match. Used for brodcast */
-    .fifo = 1,       /* FIFO ID. */
+    .id1 = 900,      /* First message ID to match. Used for brodcast */
+    .id2 = 900,      /* Second message ID to match. Increasing by **id_offset** while initializtion */
+    .fifo = 0,       /* FIFO ID. */
     .enable = true   /* Enable Filter */
 };
 
@@ -84,6 +84,9 @@ static uint32_t LOG_TEMPERATURE_CAN_ID = 1300;
 
 static void send_log(uint8_t data[], uint8_t N);
 
+/**
+ * Initialize the CAN bus.
+ */
 bool can_bus_init(void)
 {  
     abst_gpio_init(&can_RX);
@@ -108,11 +111,9 @@ bool can_bus_init(void)
     can_enable_irq(CAN1, CAN_IER_FMPIE0);
     can_enable_irq(CAN1, CAN_IER_FMPIE1);
     
-    while (CAN_IER(CAN1) == 0);
-    
-    CAN_SETUP_COMMANDS.id1         += id_offset;
-    CAN_SET_DES_VALUE_COMMANDS.id1 += id_offset;
-    CAN_LOG_REQUEST_COMMANDS.id1   += id_offset;
+    CAN_SETUP_COMMANDS.id2         += id_offset;
+    CAN_SET_DES_VALUE_COMMANDS.id2 += id_offset;
+    CAN_LOG_REQUEST_COMMANDS.id2   += id_offset;
     
     LOG_SPEED_CAN_ID += id_offset;
     LOG_POSITION_CAN_ID += id_offset;
@@ -120,28 +121,22 @@ bool can_bus_init(void)
     LOG_TEMPERATURE_CAN_ID += id_offset;
     
     abst_can_init_filter_16_bit(&CAN_SETUP_COMMANDS);
-    
     abst_can_init_filter_16_bit(&CAN_SET_DES_VALUE_COMMANDS);
-    
     abst_can_init_filter_16_bit(&CAN_LOG_REQUEST_COMMANDS);
-
-//     can_filter_id_mask_32bit_init(
-//             0,     /* Filter ID */
-//             0,     /* CAN ID */
-//             0,     /* CAN ID mask */
-//             0,     /* FIFO assignment (here: FIFO0) */
-//             true); /* Enable the filter. */
     
     abst_log("Init CAN success\n");
     return true;
 }
 
-// Interrupt handler
+/**
+ * CAN RX interrupt handler 
+ */
 void usb_lp_can_rx0_isr(void)
 {
     abst_log("###################\n");
     abst_log("CAN interrupt\n");
-    abst_logf("Fifo pending: %i\n", abst_can_get_fifo_pending(1, 0));
+    abst_logf("Fifo 0 pending: %i\n", abst_can_get_fifo_pending(1, 0));
+    abst_logf("Fifo 1 pending: %i\n", abst_can_get_fifo_pending(1, 1));
 
     uint8_t fifo = 0;
     if (abst_can_get_fifo_pending(1, 0))
@@ -167,16 +162,22 @@ void usb_lp_can_rx0_isr(void)
                 data,   /* Message payload data */
                 NULL);  /* Pointer to store the message timestamp */
     
-    abst_logf("CAN receive: Id: %i, fil: %i, len: %i\n", (int)id, (int)fmi, (int)length);
+    abst_logf("==>>>CAN receive: Id: %i, fil: %i, len: %i\n", (int)id, (int)fmi, (int)length);
     
-    if (id == CAN_SETUP_COMMANDS.id1) 
+    if (id == CAN_SETUP_COMMANDS.id1 || id == CAN_SETUP_COMMANDS.id2) 
         change_pid_settings(data, length);
-    else if (id == CAN_SET_DES_VALUE_COMMANDS.id1)
+    else if (id == CAN_SET_DES_VALUE_COMMANDS.id1 || id == CAN_SET_DES_VALUE_COMMANDS.id2)
         set_desired_value(data, length);
-    else if (id == CAN_LOG_REQUEST_COMMANDS.id1)
+    else if (id == CAN_LOG_REQUEST_COMMANDS.id1 || id == CAN_LOG_REQUEST_COMMANDS.id2)
         send_log(data, length);
 }
 
+/**
+ * Send log information via CAN.
+ * 
+ * :param data: Array of data from log request.
+ * :param N: Length of the array.
+ */
 static void send_log(uint8_t data[], uint8_t N)
 {
     abst_logf("Got log request: %i\n", (int)data[0]);
@@ -200,7 +201,8 @@ static void send_log(uint8_t data[], uint8_t N)
             can_id = LOG_CURRENT_CAN_ID;
             break;
         case LOG_TEMPERATURE:
-            /** Fall througnt. TODO */
+            msg = get_temp_value();
+            can_id = LOG_TEMPERATURE_CAN_ID;
         default:
             return; // Unknown type
     }

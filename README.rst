@@ -11,6 +11,10 @@ It is based on `Abstract-STM32Fx <https://github.com/SlavaLikhohub/Abstract-STM3
 Tested using the **STM32F103 Bluepill**. 
 If you are using something else consider reviewing pinouts settings.
 
+Example of master program `Abstract-DC-Drive-Master  <https://github.com/SlavaLikhohub/Abstract-DC-Drive-Master>`_.
+
+Example of the circuit `Abstract DC Drive <https://easyeda.com/editor#id=|a6b68a62451c4518ad637d9006d4cecf>`_
+
 Requirements
 ************
 
@@ -39,13 +43,5 @@ How to start
    
 .. code-block:: shell-session
       
-   make DEVICE=<device> TARGET=<example> PROFILE=release tidy all
-
-where ``<device>`` is ``stm32f407vgt6`` or ``stm32f103c8t6``, ``<example>`` is a file from ``src dir`` without extantion (i.e. blinky_stm32f4)
-
-Documentation
-*************
-
-.. code-block:: shell-session
-    make documentation
+   make PROFILE=release LOG=0 tidy all
 

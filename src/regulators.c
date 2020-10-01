@@ -106,6 +106,7 @@ void regulators_init(void)
                   (int)PID_position.div);
     }
     
+    time = abst_time_ms();
     pid_init(&PID_speed);
     pid_init(&PID_current);
     pid_init(&PID_position);
@@ -124,6 +125,7 @@ void regulators_update(void)
     abst_logf("motor_v: %i\n", (int)motor_v);
     abst_log("==============\n");
     
+    time = abst_time_ms();
     switch (pid_mode) {
         case SPEED_PID:
             speed_pid_update();
@@ -231,6 +233,8 @@ void set_desired_value(uint8_t data[], uint8_t N)
     abst_log("==============\n");
     
     switch (message->pid_type) {
+        case NONE:
+            break;
         case SPEED_PID:
             des_speed = message->value;
             break;
@@ -246,14 +250,38 @@ void set_desired_value(uint8_t data[], uint8_t N)
         default:
             return; // Unknown pid type
     }
+    if (pid_mode == message->pid_type) {
+        return;
+    }
     pid_mode = message->pid_type;
+    
+    struct int_pid *pid = 0;
+    switch (pid_mode) {
+        case SPEED_PID:
+            pid = &PID_speed;
+            break;
+        case CURRENT_PID:
+            pid = &PID_current;
+            break;
+        case POSITION_PID:
+            pid = &PID_position;
+            break;
+        default:
+            return;
+    }
+    time = abst_time_ms();
+    pid_init(pid);
 }
-
+/** Speed getter */
 int32_t regulator_get_fd_speed(void)
 {
     return fd_speed;
 }
-
+/*
+ * Save settings of PID into the FLASH
+ * 
+ * :param pid_type: Pid type according to :c:type:`pid_types`.
+ */
 static void save_settings_to_flash(uint8_t pid_type)
 {
     struct int_pid *pid = 0;
@@ -293,7 +321,6 @@ static void speed_pid_update(void)
     static uint32_t time_prev;
     
     int64_t enc_val = get_encoder_value();
-    time = abst_time_ms();
 
     fd_speed = (enc_val - enc_val_prev) * 1000 / (time - time_prev);
     abst_logf("Update fd_speed: %i\n", (int)fd_speed);
@@ -323,7 +350,6 @@ static void current_pid_update(void)
 static void position_pid_update(void)
 {
     fd_position = get_encoder_value();
-    time = abst_time_ms();
 
     pid_update(&PID_position);
     motor_set_pwm(motor_v);
