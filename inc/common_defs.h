@@ -64,6 +64,8 @@ enum log_types
     LOG_CURRENT,
     /** Temperature */
     LOG_TEMPERATURE,
+    /** Voltage */
+    LOG_VOLTAGE,
 };
 
 #endif // _COMMON_DEFS_H_

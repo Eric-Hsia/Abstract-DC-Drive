@@ -77,10 +77,11 @@ static struct abst_can_filter_16_bit CAN_LOG_REQUEST_COMMANDS =
 };
 
 /* Log CAN IDs. Increasing by **id_offset** while initializtion */
-static uint32_t LOG_SPEED_CAN_ID = 1000;
-static uint32_t LOG_POSITION_CAN_ID = 1100;
-static uint32_t LOG_CURRENT_CAN_ID = 1200;
-static uint32_t LOG_TEMPERATURE_CAN_ID = 1300;
+static uint32_t LOG_SPEED_CAN_ID = 1024;
+static uint32_t LOG_POSITION_CAN_ID = 1152;
+static uint32_t LOG_CURRENT_CAN_ID = 1280;
+static uint32_t LOG_TEMPERATURE_CAN_ID = 1536;
+static uint32_t LOG_VOLTAGE_CAN_ID = 1664;
 
 static void send_log(uint8_t data[], uint8_t N);
 
@@ -203,6 +204,11 @@ static void send_log(uint8_t data[], uint8_t N)
         case LOG_TEMPERATURE:
             msg = get_temp_value();
             can_id = LOG_TEMPERATURE_CAN_ID;
+            break;
+        case LOG_VOLTAGE:
+            msg = regulator_get_motor_v();
+            can_id = LOG_VOLTAGE_CAN_ID;
+            break;
         default:
             return; // Unknown type
     }

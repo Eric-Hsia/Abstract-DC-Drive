@@ -7,14 +7,14 @@
 struct pid_settings_msg 
 {
     /** PID Type according to :c:type:`pid_types`. */
-    uint8_t pid_type : 4;
+    uint8_t pid_type;
     
     /** PID Field according to :c:type:`pid_fields` */
-    uint8_t pid_field : 4;
+    uint8_t pid_field;
     
     /** Value to write */
     int32_t value;
-};
+} __attribute__((packed));
 
 /** Struct for decoding desire-value-changing message from CAN */
 struct pid_des_value_msg
@@ -24,7 +24,7 @@ struct pid_des_value_msg
     
     /** Value to write */
     int32_t value;
-};
+} __attribute__((packed));
 
 void regulators_init(void);
 
@@ -35,5 +35,7 @@ void change_pid_settings(uint8_t data[], uint8_t N);
 void set_desired_value(uint8_t data[], uint8_t N);
 
 int32_t regulator_get_fd_speed(void);
+
+int32_t regulator_get_motor_v(void);
 
 #endif //_REGULATORS_H_

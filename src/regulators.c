@@ -277,6 +277,13 @@ int32_t regulator_get_fd_speed(void)
 {
     return fd_speed;
 }
+
+/** Voltage getter */
+int32_t regulator_get_motor_v(void)
+{
+    return motor_v;
+}
+
 /*
  * Save settings of PID into the FLASH
  * 
